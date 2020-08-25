@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
+const containerBackgroundColor = "transparent";
 const playButtonBorderColor = "rgba(255,255,255,0.5)";
 const white = "#fff";
 

@@ -1,16 +1,16 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
+import { TouchableOpacity, View, Text, Image } from "react-native";
 import RNSlider from "react-native-slider";
 import styles from "./MediaControls.style";
 import { humanizeVideoDuration } from "./utils";
 import { Props as MediaControlsProps } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
-export type CustomSliderStyle = {
-  containerStyle: ViewStyle;
-  trackStyle: ViewStyle;
-  thumbStyle: ViewStyle;
-};
+// export type CustomSliderStyle = {
+//   // containerStyle: ViewStyle;
+//   trackStyle: ViewStyle;
+//   thumbStyle: ViewStyle;
+// };
 
 type Props = Pick<
   MediaControlsProps,
@@ -23,14 +23,14 @@ type Props = Pick<
   | "onSeeking"
 > & {
   onPause: () => void;
-  customSliderStyle: CustomSliderStyle;
+  // customSliderStyle: CustomSliderStyle;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
 
 const Slider = (props: Props) => {
   const {
-    customSliderStyle,
+    // customSliderStyle,
     duration,
     mainColor,
     onFullScreen,
@@ -38,11 +38,11 @@ const Slider = (props: Props) => {
     progress,
   } = props;
 
-  const {
-    containerStyle = {},
-    trackStyle: customTrackStyle = {},
-    thumbStyle: customThumbStyle = {},
-  } = customSliderStyle;
+  // const {
+  //   // containerStyle = {},
+  //   trackStyle: customTrackStyle = {},
+  //   thumbStyle: customThumbStyle = {},
+  // } = customSliderStyle;
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -72,17 +72,16 @@ const Slider = (props: Props) => {
           </Text>
         </View>
         <RNSlider
-          style={[styles.progressSlider, containerStyle]}
+          style={[styles.progressSlider]} // containerStyle
           onValueChange={dragging}
           onSlidingComplete={seekVideo}
           maximumValue={Math.floor(duration)}
           value={Math.floor(progress)}
-          trackStyle={[styles.track, customTrackStyle]}
-          thumbStyle={[
-            styles.thumb,
-            customThumbStyle,
-            { borderColor: mainColor },
-          ]}
+          // trackStyle={[styles.track, customTrackStyle]}
+
+          trackStyle={styles.track}
+          //  customThumbStyle,
+          thumbStyle={[styles.thumb, { borderColor: mainColor }]}
           minimumTrackTintColor={mainColor}
         />
       </View>
