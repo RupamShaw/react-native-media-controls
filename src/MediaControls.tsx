@@ -87,7 +87,9 @@ const MediaControls = (props: Props) => {
   };
 
   React.useEffect(() => {
-    fadeOutControls(3000);
+    if (showSlider) {
+      fadeOutControls(3000);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

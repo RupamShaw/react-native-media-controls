@@ -291,7 +291,7 @@ var MediaControls = function MediaControls(props) {
   };
 
   React__default.useEffect(function () {
-    fadeOutControls(3000); // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (showSlider) fadeOutControls(3000); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   var fadeInControls = function fadeInControls(loop) {
