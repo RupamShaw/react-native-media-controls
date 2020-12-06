@@ -2,19 +2,14 @@
 /** @type {import("./react-native-media-controls/index")} */
 
 import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button
-} from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import Video from "react-native-video";
 import MediaControls, {
   PLAYER_STATES,
 } from "./react-native-media-controls/react-native-media-controls.esm";
 
 const noop = () => {};
-const fadeOutDelay = 10000
+const fadeOutDelay = 10000;
 const App = () => {
   const videoPlayer = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -32,7 +27,6 @@ const App = () => {
       setShowSlider(false);
     }, fadeOutDelay);
     videoPlayer?.current.seek(seek);
-    
   };
 
   const onPaused = playerState => {
@@ -74,7 +68,7 @@ const App = () => {
       }, fadeOutDelay);
       return onReplay();
     }
-   
+
     // eslint-disable-next-line react/no-access-state-in-setstate
     setShowSlider(true);
     setTimeout(() => {
@@ -82,11 +76,10 @@ const App = () => {
     }, fadeOutDelay);
     onPaused(paused ? 1 : 0);
     setPlayerState(paused ? 0 : 1);
-
   };
 
   const onSeeking = currentTime => setCurrentTime(currentTime);
-  console.log("showSlider", showSlider);
+  // console.log("showSlider", showSlider);
   return (
     <View style={styles.container}>
       <Video
