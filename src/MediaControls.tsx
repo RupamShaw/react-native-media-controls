@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   GestureResponderEvent,
   ViewStyle,
+  // Alert
 } from "react-native";
 import styles from "./MediaControls.style";
 import { PLAYER_STATES } from "./constants/playerStates";
@@ -33,6 +34,7 @@ export type Props = {
   // sliderStyle: CustomSliderStyle;
   toolbarStyle: ViewStyle;
   showSlider: boolean;
+  isControlVisible: boolean;
 };
 
 const MediaControls = (props: Props) => {
@@ -40,7 +42,7 @@ const MediaControls = (props: Props) => {
     children,
     // containerStyle: customContainerStyle = {},
     duration,
-    fadeOutDelay = 5000,
+    fadeOutDelay = 7000,
     isLoading = false,
     mainColor = "rgba(12, 83, 175, 0.9)",
     onFullScreen,
@@ -53,6 +55,7 @@ const MediaControls = (props: Props) => {
     // sliderStyle, // defaults are applied in Slider.tsx
     toolbarStyle: customToolbarStyle = {},
     showSlider,
+    isControlVisible = true,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -88,7 +91,7 @@ const MediaControls = (props: Props) => {
 
   React.useEffect(() => {
     if (showSlider) {
-      fadeOutControls(3000);
+      fadeOutControls(fadeOutDelay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -135,6 +138,7 @@ const MediaControls = (props: Props) => {
   };
 
   const toggleControls = () => {
+    // Alert.alert("message", "hi" )
     // value is the last value of the animation when stop animation was called.
     // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
     opacity.stopAnimation((value: number) => {
@@ -158,13 +162,15 @@ const MediaControls = (props: Props) => {
             >
               {children}
             </View>
-            <Controls
-              onPause={onPause}
-              onReplay={onReplay}
-              isLoading={isLoading}
-              mainColor={mainColor}
-              playerState={playerState}
-            />
+            {isControlVisible && (
+              <Controls
+                onPause={onPause}
+                onReplay={onReplay}
+                isLoading={isLoading}
+                mainColor={mainColor}
+                playerState={playerState}
+              />
+            )}
             {showSlider && (
               <Slider
                 progress={progress}

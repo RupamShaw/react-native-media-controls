@@ -30,7 +30,7 @@
     "dev": "tsdx watch --localDev",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
+    "lint": "tsdx lint --fix",
     "prepare": "tsdx build"
   },
   "peerDependencies": {

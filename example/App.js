@@ -2,14 +2,19 @@
 /** @type {import("./react-native-media-controls/index")} */
 
 import React, { useState, useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button
+} from "react-native";
 import Video from "react-native-video";
 import MediaControls, {
   PLAYER_STATES,
 } from "./react-native-media-controls/react-native-media-controls.esm";
 
 const noop = () => {};
-
+const fadeOutDelay = 10000
 const App = () => {
   const videoPlayer = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -17,10 +22,17 @@ const App = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [paused, setPaused] = useState(false);
+  const [showSlider, setShowSlider] = useState(false);
+
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
 
   const onSeek = seek => {
+    setShowSlider(true);
+    setTimeout(() => {
+      setShowSlider(false);
+    }, fadeOutDelay);
     videoPlayer?.current.seek(seek);
+    
   };
 
   const onPaused = playerState => {
@@ -52,8 +64,29 @@ const App = () => {
     // setPlayerState(PLAYER_STATES.ENDED);
   };
 
-  const onSeeking = currentTime => setCurrentTime(currentTime);
+  const onMedia = () => {
+    // Alert.alert("onMedia", " onMediaMessage");
 
+    if (playerState === PLAYER_STATES.ENDED) {
+      setShowSlider(true);
+      setTimeout(() => {
+        setShowSlider(false);
+      }, fadeOutDelay);
+      return onReplay();
+    }
+   
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    setShowSlider(true);
+    setTimeout(() => {
+      setShowSlider(false);
+    }, fadeOutDelay);
+    onPaused(paused ? 1 : 0);
+    setPlayerState(paused ? 0 : 1);
+
+  };
+
+  const onSeeking = currentTime => setCurrentTime(currentTime);
+  console.log("showSlider", showSlider);
   return (
     <View style={styles.container}>
       <Video
@@ -72,25 +105,66 @@ const App = () => {
         style={styles.mediaPlayer}
         volume={0.0}
       />
-      <MediaControls
-        isFullScreen={isFullScreen}
-        duration={duration}
-        isLoading={isLoading}
-        mainColor="orange"
-        onFullScreen={noop}
-        onPaused={onPaused}
-        onReplay={onReplay}
-        onSeek={onSeek}
-        onSeeking={onSeeking}
-        playerState={playerState}
-        progress={currentTime}
+      <View
+        style={{
+          position: "absolute",
+          bottom: 10,
+          left: 20,
+          backgroundColor: "yellow",
+        }}
       >
-        <MediaControls.Toolbar>
-          <View style={styles.toolbar}>
-            <Text>I'm a custom toolbar </Text>
-          </View>
-        </MediaControls.Toolbar>
-      </MediaControls>
+        <Button
+          color="#841584"
+          title={
+            // eslint-disable-next-line no-nested-ternary
+            playerState === 2
+              ? "ios-refresh"
+              : paused
+              ? "ios-play"
+              : "ios-pause"
+          }
+          // underlayColor="rgba(76,146,202,1)"
+          onPress={onMedia}
+        />
+      </View>
+      <View
+        style={{
+          // flex:1,
+          // borderColor: "red",
+          // borderWidth: 1,
+          justifyContent: "flex-start",
+          marginTop: 0,
+          paddingTop: 0,
+          paddingVertical: 0,
+          paddingBottom: 100,
+          marginBottom: 100,
+          backgroundColor: "transparent",
+          zIndex: 1,
+        }}
+      >
+        <MediaControls
+          isControlVisible={false}
+          isFullScreen={isFullScreen}
+          duration={duration}
+          isLoading={isLoading}
+          mainColor="orange"
+          onFullScreen={noop}
+          onPaused={onPaused}
+          onReplay={onReplay}
+          onSeek={onSeek}
+          onSeeking={onSeeking}
+          playerState={playerState}
+          progress={currentTime}
+          showSlider={showSlider}
+          fadeOutDelay={fadeOutDelay}
+        >
+          <MediaControls.Toolbar>
+            <View style={styles.toolbar}>
+              <Text>I'm a custom toolbar </Text>
+            </View>
+          </MediaControls.Toolbar>
+        </MediaControls>
+      </View>
     </View>
   );
 };
@@ -104,6 +178,21 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
+  },
+  bkgnd: {
+    //   flex: 1,
+    position: "absolute",
+    // height: Dimensions.get('window').height,
+    top: 0,
+    left: 0,
+    // bottom: 540 - 570,
+    bottom: -70,
+    //  bottom: 0,
+    // right: -30,
+    backgroundColor: "black",
+    width: "100%",
+    // marginTop: 0,
+    zIndex: -2,
   },
   mediaPlayer: {
     position: "absolute",

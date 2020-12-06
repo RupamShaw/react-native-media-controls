@@ -1,7 +1,7 @@
-import React from "react";
-import { Props } from "./MediaControls";
-declare type SliderProps = Pick<Props, "progress" | "duration" | "mainColor" | "onFullScreen" | "playerState" | "onSeek" | "onSeeking"> & {
+/// <reference types="react" />
+import { Props as MediaControlsProps } from "./MediaControls";
+declare type Props = Pick<MediaControlsProps, "progress" | "duration" | "mainColor" | "onFullScreen" | "playerState" | "onSeek" | "onSeeking"> & {
     onPause: () => void;
 };
-declare const Slider: React.FC<SliderProps>;
+declare const Slider: (props: Props) => JSX.Element;
 export { Slider };
