@@ -42,7 +42,7 @@ const MediaControls = (props: Props) => {
     children,
     // containerStyle: customContainerStyle = {},
     duration,
-    fadeOutDelay = 7000,
+    // fadeOutDelay = 7000,
     isLoading = false,
     mainColor = "rgba(12, 83, 175, 0.9)",
     onFullScreen,
@@ -74,44 +74,44 @@ const MediaControls = (props: Props) => {
   const [opacity] = useState(new Animated.Value(initialOpacity));
   const [isVisible, setIsVisible] = useState(initialIsVisible);
 
-  const fadeOutControls = (delay = 0) => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 300,
-      delay,
-      useNativeDriver: false,
-    }).start(result => {
-      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
-      This prevents some flickering */
-      if (result.finished) {
-        setIsVisible(false);
-      }
-    });
-  };
+  // const fadeOutControls = (delay = 0) => {
+  //   Animated.timing(opacity, {
+  //     toValue: 0,
+  //     duration: 300,
+  //     delay,
+  //     useNativeDriver: false,
+  //   }).start(result => {
+  //     /* I noticed that the callback is called twice, when it is invoked and when it completely finished
+  //     This prevents some flickering */
+  //     if (result.finished) {
+  //       setIsVisible(false);
+  //     }
+  //   });
+  // };
 
   React.useEffect(() => {
     if (showSlider) {
-      fadeOutControls(fadeOutDelay);
+      // fadeOutControls(fadeOutDelay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fadeInControls = (loop = true) => {
-    setIsVisible(true);
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 300,
-      delay: 0,
-      useNativeDriver: false,
-    }).start(() => {
-      if (loop) {
-        fadeOutControls(fadeOutDelay);
-      }
-    });
-  };
+  // const fadeInControls = (loop = true) => {
+  //   setIsVisible(true);
+  //   Animated.timing(opacity, {
+  //     toValue: 1,
+  //     duration: 300,
+  //     delay: 0,
+  //     useNativeDriver: false,
+  //   }).start(() => {
+  //     if (loop) {
+  //       fadeOutControls(fadeOutDelay);
+  //     }
+  //   });
+  // };
 
   const onReplay = () => {
-    fadeOutControls(fadeOutDelay);
+    // fadeOutControls(fadeOutDelay);
     onReplayCallback();
   };
 
@@ -126,7 +126,7 @@ const MediaControls = (props: Props) => {
         break;
       }
       case PAUSED: {
-        fadeOutControls(fadeOutDelay);
+        // fadeOutControls(fadeOutDelay);
         break;
       }
       case ENDED:
@@ -141,10 +141,10 @@ const MediaControls = (props: Props) => {
     // Alert.alert("message", "hi" )
     // value is the last value of the animation when stop animation was called.
     // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
-    opacity.stopAnimation((value: number) => {
-      setIsVisible(!!value);
-      return value ? fadeOutControls() : fadeInControls();
-    });
+    // opacity.stopAnimation((value: number) => {
+    //   setIsVisible(!!value);
+    //   return value ? fadeOutControls() : fadeInControls();
+    // });
   };
 
   return (
@@ -158,6 +158,7 @@ const MediaControls = (props: Props) => {
                 styles.controlsRow,
                 styles.toolbarRow,
                 customToolbarStyle,
+                // { borderWidth: 4 },
               ]}
             >
               {children}

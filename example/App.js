@@ -2,14 +2,14 @@
 /** @type {import("./react-native-media-controls/index")} */
 
 import React, { useState, useRef } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import Video from "react-native-video";
 import MediaControls, {
   PLAYER_STATES,
 } from "./react-native-media-controls/react-native-media-controls.esm";
 
 const noop = () => {};
-const fadeOutDelay = 10000;
+const fadeOutDelay = 2000;
 const App = () => {
   const videoPlayer = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -17,26 +17,24 @@ const App = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [paused, setPaused] = useState(false);
-  const [showSlider, setShowSlider] = useState(false);
+  const [showSlider, setShowSlider] = useState(true);
 
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
-
+// let timer=undefined
   const onSeek = seek => {
-    setShowSlider(true);
-    setTimeout(() => {
-      setShowSlider(false);
-    }, fadeOutDelay);
+    // setShowSlider(true);
+    // setTimeout(() => {
+    //   setShowSlider(false);
+    // }, fadeOutDelay);
     videoPlayer?.current.seek(seek);
   };
 
   const onPaused = playerState => {
+    // clearTimer()
     setPaused(!paused);
     setPlayerState(playerState);
-  };
-
-  const onReplay = () => {
-    setPlayerState(PLAYER_STATES.PLAYING);
-    videoPlayer?.current.seek(0);
+    // setShowSlider(true)
+    // startTimer()
   };
 
   const onProgress = data => {
@@ -57,25 +55,49 @@ const App = () => {
     // Uncomment this line if you choose repeat=false in the video player
     // setPlayerState(PLAYER_STATES.ENDED);
   };
+  
+  // const startTimer = () => { 
+  //   timer = setTimeout(() => { 
+  //     setShowSlider(false)
+  //   }, fadeOutDelay)
+  // }
 
+  // const showSliderOnTap = () => { 
+  //   // clearTimer()
+  //   // setShowSlider(true)
+  //   startTimer()
+  // }
+
+// const clearTimer = () =>{
+//     // Handle an undefined timer rather than null
+//     // eslint-disable-next-line no-unused-expressions
+//     timer !== undefined ? clearTimeout(timer) : null
+//   }
+  
   const onMedia = () => {
     // Alert.alert("onMedia", " onMediaMessage");
+    // setShowSlider(true);
+    // setTimeout(() => {
+    //   setShowSlider(false);
+    // }, fadeOutDelay);
 
     if (playerState === PLAYER_STATES.ENDED) {
-      setShowSlider(true);
-      setTimeout(() => {
-        setShowSlider(false);
-      }, fadeOutDelay);
+    
       return onReplay();
     }
 
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    setShowSlider(true);
-    setTimeout(() => {
-      setShowSlider(false);
-    }, fadeOutDelay);
     onPaused(paused ? 1 : 0);
     setPlayerState(paused ? 0 : 1);
+  };
+
+  const onReplay = () => {
+    // clearTimer()
+    setPlayerState(PLAYER_STATES.PLAYING);
+
+    // setShowSlider(true)
+    // startTimer()
+    videoPlayer?.current.seek(0);
+
   };
 
   const onSeeking = currentTime => setCurrentTime(currentTime);
@@ -127,7 +149,7 @@ const App = () => {
           // borderWidth: 1,
           justifyContent: "flex-start",
           marginTop: 0,
-          paddingTop: 0,
+          paddingTop: 100,
           paddingVertical: 0,
           paddingBottom: 100,
           marginBottom: 100,
@@ -135,6 +157,11 @@ const App = () => {
           zIndex: 1,
         }}
       >
+        <TouchableOpacity
+          style={{backgroundColor: "transparent", height: 40}}
+          activeOpacity={1}
+          // onPress={showSliderOnTap}
+          >
         <MediaControls
           isControlVisible={false}
           isFullScreen={isFullScreen}
@@ -147,16 +174,19 @@ const App = () => {
           onSeek={onSeek}
           onSeeking={onSeeking}
           playerState={playerState}
-          progress={currentTime}
-          showSlider={showSlider}
-          fadeOutDelay={fadeOutDelay}
+            progress={currentTime}
+            showOnStart
+          showSlider //={showSlider}
+            // fadeOutDelay={fadeOutDelay}
+            
         >
-          <MediaControls.Toolbar>
+          {/* <MediaControls.Toolbar>
             <View style={styles.toolbar}>
               <Text>I'm a custom toolbar </Text>
             </View>
-          </MediaControls.Toolbar>
-        </MediaControls>
+          </MediaControls.Toolbar> */}
+          </MediaControls>
+          </TouchableOpacity>
       </View>
     </View>
   );
