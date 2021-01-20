@@ -349,9 +349,7 @@ var MediaControls = function MediaControls(props) {
   }, isVisible && React__default.createElement(reactNative.View, {
     style: [styles.container]
   }, React__default.createElement(reactNative.View, {
-    style: [styles.controlsRow, styles.toolbarRow, customToolbarStyle, {
-      borderWidth: 4
-    }]
+    style: [styles.controlsRow, styles.toolbarRow, customToolbarStyle]
   }, children), isControlVisible && React__default.createElement(Controls, {
     onPause: onPause,
     onReplay: onReplay,

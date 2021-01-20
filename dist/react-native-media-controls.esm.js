@@ -344,9 +344,7 @@ var MediaControls = function MediaControls(props) {
   }, isVisible && React.createElement(View, {
     style: [styles.container]
   }, React.createElement(View, {
-    style: [styles.controlsRow, styles.toolbarRow, customToolbarStyle, {
-      borderWidth: 4
-    }]
+    style: [styles.controlsRow, styles.toolbarRow, customToolbarStyle]
   }, children), isControlVisible && React.createElement(Controls, {
     onPause: onPause,
     onReplay: onReplay,
