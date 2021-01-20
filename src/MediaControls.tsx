@@ -158,7 +158,7 @@ const MediaControls = (props: Props) => {
                 styles.controlsRow,
                 styles.toolbarRow,
                 customToolbarStyle,
-                // { borderWidth: 4 },
+                { borderWidth: 4 },
               ]}
             >
               {children}
